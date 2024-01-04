@@ -1,0 +1,29 @@
+{
+    "name": "jstolpe/tiktok-api-php-sdk",
+    "description": "TikTok API PHP SDK",
+    "keywords": [
+        "tiktok", 
+        "tiktok api", 
+        "api", 
+        "sdk", 
+        "php", 
+        "tiktok api php sdk"
+    ],
+    "type": "library",
+    "homepage": "https://github.com/jstolpe/tiktok-api-php-sdk",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Justin Stolpe",
+            "homepage": "https://github.com/jstolpe/tiktok-api-php-sdk"
+        }
+    ],
+    "require": {
+        "php": "^5.6|^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TikTok\\": "src/TikTok/"
+        }
+    }
+}
