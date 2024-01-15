@@ -23,6 +23,10 @@
  */
 namespace TikTok;
 
+// other classes to use
+use TikTok\Request\Request;
+use TikTok\Request\Curl;
+
 /**
  * TikTok
  *
@@ -37,13 +41,128 @@ namespace TikTok;
  */
 class TikTok {
     /**
+     * @const string Default Graph API version for requests.
+     */
+    const DEFAULT_GRAPH_VERSION = 'v2';
+
+    /**
+     * @var string $graphVersion the graph version we want to use.
+     */
+    protected $graphVersion;
+
+    /**
+     * @var object $client the client service.
+     */
+    protected $client;
+
+    /**
+     * @var string $accessToken access token to use with requests.
+     */
+    protected $accessToken;
+
+    /**
+     * @var Request $request the request to the api.
+     */
+    protected $request = '';
+
+    /**
      * Contructor for instantiating a new TikTok object.
      *
      * @param array $config for the class
      * @return void
      */
     public function __construct( $config ) {
-        // more coming soon...
+        // set our access token
+        $this->setAccessToken( isset( $config['access_token'] ) ? $config['access_token'] : '' );
+
+        // instantiate the client
+        $this->client = new Curl();
+
+        // set graph version
+        $this->graphVersion = isset( $config['graph_version'] ) ? $config['graph_version'] : self::DEFAULT_GRAPH_VERSION;
+    }
+
+    /**
+     * Sends a GET request returns the result.
+     *
+     * @param array $params params for the GET request.
+     * @return response.
+     */
+    public function get( $params ) {
+        // check for params
+        $endpointParams = isset( $params['params'] ) ? $params['params'] : array();
+
+        // perform GET request
+        return $this->sendRequest( Request::METHOD_GET, $params['endpoint'], $endpointParams );
+    }
+
+    /**
+     * Sends a POST request and returns the result.
+     *
+     * @param array $params params for the POST request.
+     * @return response.
+     */
+    public function post( $params ) {
+        // check for params
+        $endpointParams = isset( $params['params'] ) ? $params['params'] : array();
+
+        // perform POST request
+        return $this->sendRequest( Request::METHOD_POST, $params['endpoint'], $endpointParams );
+    }
+
+    /**
+     * Send a custom GET request to the API and returns the result.
+     *
+     * @param string $customUrl the entire url for the request.
+     * @return response.
+     */
+    public function sendCustomRequest( $customUrl ) {
+        // create our request
+        $this->request = new Request( Request::METHOD_GET );
+
+        // set our custom url for the request
+        $this->request->setUrl( $this->graphVersion, $customUrl );
+
+        // return the response
+        $response = $this->client->send( $this->request );
+
+        // append the request to the response
+        $response['debug'] = $this;
+
+        // return the response
+        return $response;
+    }
+
+    /**
+     * Send a request to the API and returns the result.
+     *
+     * @param string $method HTTP method.
+     * @param string $endpoint endpoint for the request.
+     * @param string $params parameters for the endpoint.
+     * @return response.
+     */
+    public function sendRequest( $method, $endpoint, $params ) {
+        // create our request
+        $this->request = new Request( $method, $endpoint, $params, $this->graphVersion, $this->accessToken );
+
+        // send the request to the client for processing
+        $response = $this->client->send( $this->request );
+
+        // append the request to the response
+        $response['debug'] = $this;
+
+        // return the response
+        return $response;
+    }
+
+    /**
+     * Set the access token.
+     *
+     * @param string $accessToken set the access token.
+     * @return void.
+     */
+    public function setAccessToken( $accessToken ) {
+        $this->accessToken = $accessToken;
     }
 }
 

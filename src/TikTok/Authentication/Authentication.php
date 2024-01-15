@@ -25,6 +25,7 @@ namespace TikTok\Authentication;
 
 // other classes we need to use
 use TikTok\TikTok;
+use TikTok\Request\Request;
 use TikTok\Request\Params;
 
 /**
@@ -48,11 +49,6 @@ use TikTok\Request\Params;
  * @version     1.0
  */
 class Authentication extends TikTok {
-    /**
-     * @const string authorization url.
-     */
-    const AUTHORIZATION_URL = 'https://www.tiktok.com/v2/auth/authorize/';
-
     /**
      * @const string grant_type value for authorization_code.
      */
@@ -178,7 +174,7 @@ class Authentication extends TikTok {
         );
 
         // return the login dialog url
-        return self::AUTHORIZATION_URL . '?' . http_build_query( $params );
+        return Request::BASE_AUTHORIZATION_URL . '/' . $this->graphVersion . '/auth/authorize/' . '?' . http_build_query( $params );
     }
 
    /**

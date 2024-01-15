@@ -39,7 +39,7 @@ class Params {
      * @const strings of the query parameters.
      */
     const CLIENT_KEY = 'client_key';
-    const CLIENT_SECRET = 'client_secrets';
+    const CLIENT_SECRET = 'client_secret';
     const CODE = 'code';
     const GRANT_TYPE = 'grant_type';
     const FIELDS = 'fields'; 
