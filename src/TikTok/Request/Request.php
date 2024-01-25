@@ -190,6 +190,15 @@ class Request {
     public function getUrl() {
         return $this->url;
     }
+
+    /**
+     * Return the access token.
+     *
+     * @return string
+     */
+    public function getAccessToken() {
+        return $this->accessToken;
+    }
 }
 
 ?>

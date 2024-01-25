@@ -73,6 +73,12 @@ class Curl {
             $options[CURLOPT_POSTFIELDS] = $request->getUrlBody();
         }
 
+        if ( $request->getAccessToken() ) {
+            $options[CURLOPT_HTTPHEADER] = array(
+                'Authorization: Bearer ' . $request->getAccessToken()
+            );
+        }
+
         // initialize curl
         $this->curl = curl_init();
 
