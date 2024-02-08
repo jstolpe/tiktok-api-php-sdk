@@ -24,9 +24,9 @@
 namespace TikTok\Request;
 
 /**
- * Params
+ * Fields
  *
- * Functionality and defines for query parameters.
+ * Functionality and defines for the TikTok API fields query parameter.
  *
  * @package     tiktok-api-php-sdk
  * @author      Justin Stolpe
@@ -34,45 +34,35 @@ namespace TikTok\Request;
  * @license     https://opensource.org/licenses/MIT
  * @version     1.0
  */
-class Params {
-    /**
-     * @const strings of the query parameters.
-     */
-    const CLIENT_KEY = 'client_key';
-    const CLIENT_SECRET = 'client_secret';
-    const CODE = 'code';
-    const GRANT_TYPE = 'grant_type';
-    const FIELDS = 'fields'; 
-    const FILTERS = 'filters';
-    const REDIRECT_URI = 'redirect_uri';
-    const RESPONSE_TYPE = 'response_type';
-    const SCOPE = 'scope';
-    const STATE = 'state';
-    const REFRESH_TOKEN = 'refresh_token';
-    const VIDEO_IDS = 'video_ids';
-
-    /**
-     * Get fields for a request.
-     * 
-     * @param array $fields list of fields for the request.
-     * @return array fields array with comma separated string.
-     */
-    public static function getFieldsParam( $fields ) {
-        return array( // return fields param
-            self::FIELDS => self::commaStringToArray( $fields )
-        );
-    }
-
-    /**
-     * Turn array into a comma separated string.
-     * 
-     * @param array $array elements to be comma separated.
-     * @return string comma separated list of fields.
-     */
-    public static function commaStringToArray( $array = array() ) {
-        // imploded string on commas and return
-        return implode( ',', $array );
-    }
+class Fields {
+	const AVATAR_LARGE_URL = 'avatar_large_url';
+	const AVATAR_URL = 'avatar_url';
+	const AVATAR_URL_100 = 'avatar_url_100';
+	const BIO_DESCRIPTION = 'bio_description';
+	const COMMENT_COUNT = 'comment_count';
+	const COVER_IMAGE_URL = 'cover_image_url';
+	const CREATE_TIME = 'create_time';
+	const DISPLAY_NAME = 'display_name';
+	const DURATION = 'duration';
+	const EMBED_HTML = 'embed_html';
+	const EMBED_LINK = 'embed_link';
+	const FOLLOWER_COUNT = 'follower_count';
+	const FOLLOWING_COUNT = 'following_count'; 
+	const HEIGHT = 'height';
+	const ID = 'id';
+	const IS_VERIFIED = 'is_verified';
+	const LIKE_COUNT = 'like_count';
+	const LIKES_COUNT = 'likes_count';
+	const OPEN_ID = 'open_id';
+	const PROFILE_DEEP_LINK = 'profile_deep_link';
+	const SHARE_COUNT = 'share_count';
+	const SHARE_URL = 'share_url';
+	const TITLE = 'title';
+	const UNION_ID = 'union_id';
+	const VIDEO_COUNT = 'video_count';
+	const VIDEO_DESCRIPTION = 'video_description';
+	const VIEW_COUNT = 'view_count';
+	const WIDTH = 'width';
 }
 
 ?>

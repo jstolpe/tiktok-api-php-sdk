@@ -66,6 +66,11 @@ class TikTok {
     protected $request = '';
 
     /**
+     * @var string $cursor cursor next for more info
+     */
+    public $cursorNext = '';
+
+    /**
      * Contructor for instantiating a new TikTok object.
      *
      * @param array $config for the class
@@ -148,6 +153,9 @@ class TikTok {
         // send the request to the client for processing
         $response = $this->client->send( $this->request );
 
+        // set cursors
+        $this->setCursors( $response );
+
         // append the request to the response
         $response['debug'] = $this;
 
@@ -163,6 +171,18 @@ class TikTok {
      */
     public function setAccessToken( $accessToken ) {
         $this->accessToken = $accessToken;
+    }
+
+    /**
+     * Set cursor.
+     *
+     * @param array &$response response from the api.
+     * @return void.
+     */
+    public function setCursors( &$response ) {
+        if ( !empty( $response['data']['has_more'] ) ) { // check for has more
+            $this->cursorNext = $response['cursor_next'] = $response['data']['cursor'];
+        }
     }
 }
 
