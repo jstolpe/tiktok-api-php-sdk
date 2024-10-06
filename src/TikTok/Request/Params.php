@@ -41,6 +41,7 @@ class Params {
     const CLIENT_KEY = 'client_key';
     const CLIENT_SECRET = 'client_secret';
     const CODE = 'code';
+    const CODE_CHALLENGE = 'code_challenge';
     const GRANT_TYPE = 'grant_type';
     const FIELDS = 'fields'; 
     const FILTERS = 'filters';
