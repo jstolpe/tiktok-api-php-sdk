@@ -56,6 +56,11 @@ class Request {
     const METHOD_POST = 'POST';
 
     /**
+     * @const string METHOD_PUT HTTP PUT method.
+     */
+    const METHOD_PUT = 'PUT';
+
+    /**
      * @const string METHOD_DELETE HTTP DELETE method.
      */
     const METHOD_DELETE = 'DELETE';
@@ -79,6 +84,16 @@ class Request {
      * @var array $params the parameters to send with this request.
      */
     protected $params = array();
+
+    /**
+     * @var array $headers the headers to send with this request.
+     */
+    protected $headers = array();
+
+    /**
+     * @var array $file the file to send with this request.
+     */
+    protected $file = array();
 
     /**
      * @var string $url enptoint url.
@@ -130,6 +145,46 @@ class Request {
             // build the query string and append to url
             $this->url .= '?' . http_build_query( $params );
         }
+    }
+
+    /**
+     * Set request headers.
+     *
+     * @param array $headers headers for the request.
+     * @return void
+     */
+    public function setHeaders( $headers ) {
+        // set request headres
+        $this->headers = $headers;
+    }
+
+    /**
+     * Return the headers for this request.
+     *
+     * @return string
+     */
+    public function getHeaders() {
+        return $this->headers;
+    }
+
+    /**
+     * Set request file.
+     *
+     * @param array $file file for the request.
+     * @return void
+     */
+    public function setFile( $file ) {
+        // set request headres
+        $this->file = $file;
+    }
+
+    /**
+     * Return the file for this request.
+     *
+     * @return string
+     */
+    public function getFile() {
+        return $this->file;
     }
 
     /**

@@ -25,6 +25,7 @@ namespace TikTok\Post;
 
 // other classes we need to use
 use TikTok\TikTok;
+use TikTok\Request\Request;
 
 /**
  * Post
@@ -154,6 +155,29 @@ class Post extends TikTok {
         return $response;
     }
 
+    /**
+     * Upload file to TikTok Server.
+     *
+     * @param string $uploadUrl upload_url from publish response.
+     * @param array $file params of the file being uploaded.
+     * @return response.
+     */
+    public function uploadFile( $uploadUrl, $file ) {
+        // get file size
+        $fileSize = fileSize( $file['path'] );
+
+        $headers = array( // set headers for request
+            'Content-Range' => 'bytes 0-' . ( $fileSize - 1 ) . '/' . $fileSize,
+            'Content-Length' => $fileSize,
+            'Content-Type' => $file['mime_type']
+        );
+
+        // make request to the api
+        $response = $this->sendCustomRequest( $uploadUrl, Request::METHOD_PUT, $headers, $file );
+
+        // return response
+        return $response;
+    }
 }
 
 ?>

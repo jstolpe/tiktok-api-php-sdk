@@ -73,10 +73,41 @@ class Curl {
             $options[CURLOPT_POSTFIELDS] = $request->getUrlBody();
         }
 
-        if ( $request->getAccessToken() ) {
+        if ( $request->getMethod() == Request::METHOD_PUT ) { // needed for put
+            $options[CURLOPT_PUT] = true;
+        }
+
+        if ( $request->getAccessToken() ) { // pass along access token
             $options[CURLOPT_HTTPHEADER] = array(
                 'Authorization: Bearer ' . $request->getAccessToken()
             );
+        }
+
+        if ( $request->getHeaders() ) { // we have headers to send
+            foreach ( $request->getHeaders() as $headerKey => $headerValue ) { // loop over headers
+                // generate header
+                $header = $headerKey . ': ' . $headerValue;
+
+                if ( isset( $options[CURLOPT_HTTPHEADER] ) ) { // add on to existing headers
+                    $options[CURLOPT_HTTPHEADER][] = $header; 
+                } else { // setup new header array
+                    $options[CURLOPT_HTTPHEADER] = array(
+                        $header
+                    );
+                }
+            }
+        }
+
+        if ( $request->getFile() ) { // we have file being uploaded
+            // get file info
+            $fileInfo = $request->getFile();
+
+            // open the file
+            $openFile = fopen( $fileInfo['path'], 'rb' );
+
+            // add file data to curl options
+            $options[CURLOPT_INFILE] = $openFile;
+            $options[CURLOPT_INFILESIZE] = filesize( $fileInfo['path'] );
         }
 
         // initialize curl
@@ -90,6 +121,10 @@ class Curl {
 
         // close curl connection
         curl_close( $this->curl );
+
+        if ( $request->getFile() ) { // close our file
+            fclose( $openFile );
+        }
 
         // return nice json decoded response
         return json_decode( $this->rawResponse, true );

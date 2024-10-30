@@ -119,14 +119,23 @@ class TikTok {
      * Send a custom GET request to the API and returns the result.
      *
      * @param string $customUrl the entire url for the request.
+     * @param string $requestType type of request.
+     * @param array $headers request headers.
+     * @param array $file file being uploaded.
      * @return response.
      */
-    public function sendCustomRequest( $customUrl ) {
+    public function sendCustomRequest( $customUrl, $requestType = Request::METHOD_GET, $headers = array(), $file = array() ) {
         // create our request
-        $this->request = new Request( Request::METHOD_GET );
+        $this->request = new Request( $requestType );
 
         // set our custom url for the request
         $this->request->setUrl( $this->graphVersion, $customUrl );
+
+        // set headers
+        $this->request->setHeaders( $headers );
+
+        // set files
+        $this->request->setFile( $file );
 
         // return the response
         $response = $this->client->send( $this->request );
